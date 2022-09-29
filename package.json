@@ -1,5 +1,5 @@
 {
-  "name": "the_world_cup",
+  "name": "futballory",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.2",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^6.6.0"
   }
 }
