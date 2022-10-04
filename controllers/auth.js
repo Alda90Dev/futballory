@@ -10,7 +10,7 @@ const createUser = async (req, res = response) => {
         const existsEmail = await User.findOne({email});
         if (existsEmail) {
             return res.status(400).json({
-                ok: false,
+                success: false,
                 message: 'EL correo ya existe'
             });
         }
@@ -27,14 +27,14 @@ const createUser = async (req, res = response) => {
         const token = await generateJWT(user.id);
 
         res.json({
-            ok: true,
+            success: true,
             user,
             token
         });
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            ok: false,
+            success: false,
             message: 'Hable con el admin'
         });
     }
@@ -48,7 +48,7 @@ const login = async (req, res = response) => {
         const user = await User.findOne({email});
         if (!user) {
             return res.status(400).json({
-                ok: false,
+                success: false,
                 message: 'Email no encontrado'
             });
         }
@@ -56,7 +56,7 @@ const login = async (req, res = response) => {
         const validPassword = bcrypt.compareSync(password, user.password);
         if(!validPassword) {
             return res.status(400).json({
-                ok: false,
+                success: false,
                 message: 'La constraseña es invalida'
             });
         }
@@ -64,14 +64,14 @@ const login = async (req, res = response) => {
         const token = await generateJWT(user.id);
 
         return res.json({
-            ok: true,
+            success: true,
             user,
             token
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            ok: false,
+            success: false,
             message: 'Hable con el admin'
         });
     }
@@ -83,7 +83,7 @@ const renewToken = async (req, res = response) => {
     const user = await User.findById(uid);
 
     res.json({
-        ok: true,
+        success: true,
         user,
         token
     });
