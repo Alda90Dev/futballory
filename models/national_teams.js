@@ -1,5 +1,13 @@
 const { Schema, model } = require('mongoose');
 
+const Continents = [
+    'AMERICA',
+    'EUROPA',
+    'AFRICA',
+    'ASIA',
+    'OCEANIA'
+];
+
 const NationalTeamSchema = Schema({
     name: {
         type: String,
@@ -9,16 +17,13 @@ const NationalTeamSchema = Schema({
         type: String,
         required: true
     },
-    official_name: {
-        type: String,
-        required: true
-    },
     code: {
         type: String,
         required: true
     },
     continent: {
         type: String,
+        enum: Continents,
         required: true
     },
     icon: {
@@ -27,8 +32,9 @@ const NationalTeamSchema = Schema({
     flag: {
         type: String
     },
-    confederation: {
-        type: String,
+    confederation_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Confederation',
         required: true
     },
     

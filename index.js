@@ -32,6 +32,8 @@ app.use(express.static(publicPath));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/stadium', require('./routes/stadium'));
 app.use('/api/confederation', require('./routes/confederation'));
+app.use('/api/national_team', require('./routes/national_teams'));
+app.use('/api/player', require('./routes/player'))
 
 app.listen( process.env.PORT, (err) => {
     if (err) throw new Error(err);
