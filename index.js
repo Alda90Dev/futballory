@@ -36,6 +36,7 @@ app.use('/api/national_team', require('./routes/national_teams'));
 app.use('/api/player', require('./routes/player'));
 app.use('/api/group', require('./routes/group'));
 app.use('/api/match', require('./routes/match'));
+app.use('/api/stadistic', require('./routes/stadistic'));
 
 app.listen( process.env.PORT, (err) => {
     if (err) throw new Error(err);

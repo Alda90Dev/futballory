@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createMatch, updateMatch, getMAtches, getMatches } = require('../controllers/match');
+const { createMatch, updateMatch, getMatches } = require('../controllers/match');
 const { validateFields } = require('../middlewares/validate-fields');
 const { validateJWT } = require('../middlewares/validate-jwt');
 const router = Router();
