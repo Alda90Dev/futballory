@@ -1,10 +1,16 @@
 const { response } = require('express');
 const Stadistic = require('../models/stadistic');
+const { updateMatch } = require('../controllers/match_stadistics');
 
 const createStadistic = async (req, res = response) => {
     try {
         const stadistic = new Stadistic(req.body);
-        await stadistic.save();
+        const new_stadistic = await stadistic.save();
+        console.log('Stadistic: ', new_stadistic._id);
+
+        const isUpdated =  await updateMatch(new_stadistic);
+        console.log('isMatchUpdated: ', isUpdated);
+
 
         res.json({
             success: true,
