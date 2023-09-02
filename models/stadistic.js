@@ -6,11 +6,10 @@ const StadisticType = [
     'YELLOW CARD',
     'RED CARD',
     'PENALTY',
-    'SCORED PENALTY',
     'MISSED PENALTY',
     'SUBSTITUTION',
     'GOAL',
-    'SCORED_PENALTY_SERIE'
+    'SCORED PENALTY SERIE'
 ];
 
 const StadisticSchema = Schema({

@@ -38,6 +38,8 @@ const updateStadistic = async (req, res = response) => {
         stadistic.match = match;
 
         await stadistic.save();
+        const isUpdated =  await updateMatch(stadistic);
+        console.log('isMatchUpdated: ', isUpdated);
 
         res.json({
             success: true,
