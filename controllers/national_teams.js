@@ -45,6 +45,51 @@ const updateNationalTeam = async(req, res = response) => {
     }
 }
 
+const updateIcon = async(req, res = response) => {
+    const { _id, icon } = req.body;
+
+    try {
+        const nationalTeam = await NationalTeam.findById(_id);
+        nationalTeam.icon = icon;
+
+        await nationalTeam.save();
+
+        res.json({
+            success: true,
+            nationalTeam
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Error de servidor'
+        });
+    } 
+}
+
+const updateFlag = async(req, res = response) => {
+    const { _id, flag } = req.body;
+
+    try {
+        const nationalTeam = await NationalTeam.findById(_id);
+        nationalTeam.flag = flag;
+
+        await nationalTeam.save();
+
+        res.json({
+            success: true,
+            nationalTeam
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Error de servidor'
+        });
+    } 
+}
+
+
 const getNationalTeams = async (req, res = response) => {
     const nationalTeams = await NationalTeam.find().lean();
 
@@ -57,5 +102,7 @@ const getNationalTeams = async (req, res = response) => {
 module.exports = {
     createNationalTeam,
     updateNationalTeam,
+    updateIcon,
+    updateFlag,
     getNationalTeams
 }

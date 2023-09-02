@@ -53,6 +53,28 @@ const updatePlayer = async(req, res = response) => {
     }
 }
 
+const updateImage = async(req, res = response) => {
+    const { _id, image } = req.body;
+
+    try {
+        const player = await Player.findById(_id);
+        player.image = image;
+
+        await player.save();
+
+        res.json({
+            success: true,
+            player
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Error de servidor'
+        });
+    } 
+}
+
 const getPlayers = async (req, res) => {
 
     const national_team_id  = req.params.national_team_id;
@@ -68,5 +90,6 @@ const getPlayers = async (req, res) => {
 module.exports = {
     createPlayer,
     updatePlayer,
+    updateImage,
     getPlayers
 }

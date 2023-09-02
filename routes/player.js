@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createPlayer, updatePlayer, getPlayers } = require('../controllers/player');
+const { createPlayer, updatePlayer, updateImage, getPlayers } = require('../controllers/player');
 const { validateFields } = require('../middlewares/validate-fields');
 const { validateJWT } = require('../middlewares/validate-jwt');
 const router = Router();
@@ -39,6 +39,12 @@ router.post('/update', [
     check('national_team_id', 'EL id del equipo nacional es obligatorio').not().isEmpty(),
     validateFields
 ], updatePlayer);
+
+router.post('/image', [
+    check('_id', 'El id es obligatorio').not().isEmpty(),
+    check('image', 'La imagen es obligatoria').not().isEmpty(),
+    validateFields
+], updateImage);
 
 router.get('/:national_team_id', validateJWT, getPlayers);
 
