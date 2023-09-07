@@ -1,10 +1,7 @@
 const { Schema, model } = require('mongoose');
 
-const Group = [
-    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'
-];
 
-const GroupSchema = Schema({
+const GroupTeamsSchema = Schema({
     points: {
         type: Number,
         required: true
@@ -38,8 +35,8 @@ const GroupSchema = Schema({
         required: true
     },
     group_id: {
-        type: String,
-        enum: Group,
+        type: Schema.Types.ObjectId,
+        ref: 'Group',
         required: true
     },
     national_team_id: {
@@ -49,9 +46,9 @@ const GroupSchema = Schema({
     }
 });
 
-GroupSchema.method('toJSON', function() {
+GroupTeamsSchema.method('toJSON', function() {
     const { __v, _id, ...object } = this.toObject();
     return object;
 });
 
-module.exports = model('Group', GroupSchema);
+module.exports = model('GroupTeams', GroupTeamsSchema);

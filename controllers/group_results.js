@@ -1,5 +1,4 @@
-const Group = require('../models/group');
-const Match = require('../models/match');
+const Group = require('../models/group_teams');
 
 async function updateGroupResultWinner(match) {
     try {
