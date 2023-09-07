@@ -59,14 +59,56 @@ const getMatches = async (req, res) => {
     const date = new Date(req.params.date);
     const matches = await Match.find({ date: date}).lean().populate('local_team').populate('guest_team').populate('stadium');
 
+    if (matches.length == 0) {
+        const matchGTE = await Match.findOne({ date: {$gte: date }}).select({ date: 1, _id: 0 }).sort({date: 'asc'});
+
+        if (matchGTE != null) {
+            const dateGTE = new Date(matchGTE.date);
+            /// Aqui puede ser mediante un map
+            const matchesGTE = await Match.find({ date: dateGTE}).lean().populate('local_team').populate('guest_team').populate('stadium');
+            
+            console.log("Matches GTE " + matchesGTE);
+            res.json({
+                success: true,
+                matchesGTE
+            });
+            return;
+        } else {
+            const lastMatch = await Match.findOne().lean().populate('local_team').populate('guest_team').populate('stadium').sort({date: 'desc'});
+           
+
+            console.log("Matches GTE Nulo " + lastMatch);
+            res.json({
+                success: true,
+                lastMatch
+            });
+            return;
+        }
+       
+    }
+
+    console.log("Matches Count" + matches.length);
+
     res.json({
         success: true,
         matches
     });
 }
 
+const getDates = async (req, res) => {
+
+    const dates = await Match.distinct("date").lean();
+    // .find().select({ date: 1, _id: 0 }).lean().sort({date: 'asc'});
+
+    res.json({
+        success: true,
+        dates
+    });
+}
+
 module.exports = {
     createMatch,
     updateMatch,
-    getMatches
+    getMatches,
+    getDates
 }
