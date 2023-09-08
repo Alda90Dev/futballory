@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createGroupTeams, updateGroupTeams, getGroupTeams } = require('../controllers/group_teams');
+const { createGroup, updateGroup, getGroups } = require('../controllers/group');
 const { validateFields } = require('../middlewares/validate-fields');
 const { validateJWT } = require('../middlewares/validate-jwt');
 const router = Router();
@@ -23,7 +23,7 @@ router.post('/new', [
     check('group_id', 'El grupo es obligatorio').not().isEmpty(),
     check('national_team_id', 'EL id del equipo nacional es onligatorio').not().isEmpty(),
     validateFields
-], createGroupTeams);
+], createGroup);
 
 router.post('/update', [
     check('_id', 'El id es obligatorio').not().isEmpty(),
@@ -44,8 +44,8 @@ router.post('/update', [
     check('group_id', 'El grupo es obligatorio').not().isEmpty(),
     check('national_team_id', 'EL id del equipo nacional es onligatorio').not().isEmpty(),
     validateFields
-], updateGroupTeams);
+], updateGroup);
 
-router.get('/', validateJWT, getGroupTeams);
+router.get('/', validateJWT, getGroups);
 
 module.exports = router;

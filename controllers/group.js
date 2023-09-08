@@ -1,7 +1,7 @@
 const { response } = require('express');
-const Group = require('../models/group_teams');
+const Group = require('../models/group');
 
-const createGroupTeams = async (req, res = response) => {
+const createGroup = async (req, res = response) => {
     try {
         const group = new Group(req.body);
         await group.save();
@@ -19,7 +19,7 @@ const createGroupTeams = async (req, res = response) => {
     }
 }
 
-const updateGroupTeams = async (req, res = response) => {
+const updateGroup = async (req, res = response) => {
     const { _id, points, goals, matches, wins, loses, goals_received, goals_difference, group_id, national_team_id } = req.body;
 
     try {
@@ -50,17 +50,24 @@ const updateGroupTeams = async (req, res = response) => {
     }
 }
 
-const getGroupTeams = async (req, res = response) => {
-    const groups = await Group.find().lean();
+const getGroups = async (req, res = response) => {
+    var groups = await Group.find().lean().populate('national_team_id');
 
+    const grouped = groups.reduce((segment, group) => {
+        const { group_id } = group;
+        segment[group_id] = segment[group_id] ?? [];
+        segment[group_id].push(group);
+        return segment;
+    }, {});
+ 
     res.json({
         success: true,
-        groups
+        grouped
     });
 }
 
 module.exports = {
-    createGroupTeams,
-    updateGroupTeams,
-    getGroupTeams
+    createGroup,
+    updateGroup,
+    getGroups
 }
