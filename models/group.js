@@ -22,6 +22,10 @@ const GroupSchema = Schema({
         type: Number,
         required: true
     },
+    draws: {
+        type: Number,
+        required: true
+    },
     loses: {
         type: Number,
         required: true

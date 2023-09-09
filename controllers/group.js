@@ -20,7 +20,7 @@ const createGroup = async (req, res = response) => {
 }
 
 const updateGroup = async (req, res = response) => {
-    const { _id, points, goals, matches, wins, loses, goals_received, goals_difference, group_id, national_team_id } = req.body;
+    const { _id, points, goals, matches, wins, draws, loses, goals_received, goals_difference, group_id, national_team_id } = req.body;
 
     try {
         const group = await Group.findById(_id);
@@ -28,6 +28,7 @@ const updateGroup = async (req, res = response) => {
         group.goals = goals;
         group.matches = matches;
         group.wins = wins;
+        group.draws = draws;
         group.loses = loses;
         group.empties = empties;
         group.goals_received = goals_received;
