@@ -18,7 +18,7 @@ router.post('/new', [
     check('status', 'El estatus del partido es obligatorio').not().isEmpty(),
     check('stadium', 'El estadion es obligatorio').not().isEmpty(),
     validateFields
-], createMatch);
+], validateJWT, createMatch);
 
 router.post('/update', [
     check('_id', 'El id es obligatorio').not().isEmpty(),
@@ -34,7 +34,7 @@ router.post('/update', [
     check('status', 'El estatus del partido es obligatorio').not().isEmpty(),
     check('stadium', 'El estadion es obligatorio').not().isEmpty(),
     validateFields
-], updateMatch);
+], validateJWT, updateMatch);
 
 router.get('/:date', validateJWT, getMatches);
 

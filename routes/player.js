@@ -20,7 +20,7 @@ router.post('/new', [
     check('player_type', 'El tipo de jugador es obligatorio').not().isEmpty(),
     check('national_team_id', 'EL id del equipo nacional es obligatorio').not().isEmpty(),
     validateFields
-], createPlayer);
+], validateJWT, createPlayer);
 
 router.post('/update', [
     check('_id', 'El id es obligatorio').not().isEmpty(),
@@ -38,13 +38,13 @@ router.post('/update', [
     check('player_type', 'El tipo de jugador es obligatorio').not().isEmpty(),
     check('national_team_id', 'EL id del equipo nacional es obligatorio').not().isEmpty(),
     validateFields
-], updatePlayer);
+], validateJWT, updatePlayer);
 
 router.post('/image', [
     check('_id', 'El id es obligatorio').not().isEmpty(),
     check('image', 'La imagen es obligatoria').not().isEmpty(),
     validateFields
-], updateImage);
+], validateJWT, updateImage);
 
 router.get('/:national_team_id', validateJWT, getPlayers);
 

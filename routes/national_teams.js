@@ -12,7 +12,7 @@ router.post('/new', [
     check('continent', 'El continente es obligatorio').not().isEmpty(),
     check('confederation_id', 'EL id de la confederacion es obligatorio').not().isEmpty(),
     validateFields
-], createNationalTeam);
+], validateJWT, createNationalTeam);
 
 router.post('/update', [
     check('_id', 'El id es obligatorio').not().isEmpty(),
@@ -22,19 +22,19 @@ router.post('/update', [
     check('continent', 'El continente es obligatorio').not().isEmpty(),
     check('confederation_id', 'EL id de la confederacion es obligatorio').not().isEmpty(),
     validateFields
-], updateNationalTeam);
+], validateJWT, updateNationalTeam);
 
 router.post('/icon', [
     check('_id', 'El id es obligatorio').not().isEmpty(),
     check('icon', 'El icono es obligatorio').not().isEmpty(),
     validateFields
-], updateIcon);
+], validateJWT, updateIcon);
 
 router.post('/flag', [
     check('_id', 'El id es obligatorio').not().isEmpty(),
     check('flag', 'La bandera es obligatoria').not().isEmpty(),
     validateFields
-], updateFlag);
+], validateJWT, updateFlag);
 
 router.get('/', validateJWT, getNationalTeams);
 

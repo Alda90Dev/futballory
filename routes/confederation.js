@@ -9,14 +9,14 @@ router.post('/new', [
     check('name', 'El nombre es obligatorio').not().isEmpty(),
     check('display_name', 'El display_name es obligatoria').not().isEmpty(),
     validateFields
-], createConfederation);
+], validateJWT, createConfederation);
 
 router.post('/update', [
     check('_id', 'El id es obligatorio').not().isEmpty(),
     check('name', 'El nombre es obligatorio').not().isEmpty(),
     check('display_name', 'El display_name es obligatoria').not().isEmpty(),
     validateFields
-], updateConfederation);
+], validateJWT, updateConfederation);
 
 router.get('/', validateJWT, getConfederations);
 

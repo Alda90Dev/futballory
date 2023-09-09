@@ -23,7 +23,7 @@ router.post('/new', [
     check('group_id', 'El grupo es obligatorio').not().isEmpty(),
     check('national_team_id', 'EL id del equipo nacional es onligatorio').not().isEmpty(),
     validateFields
-], createGroup);
+], validateJWT, createGroup);
 
 router.post('/update', [
     check('_id', 'El id es obligatorio').not().isEmpty(),
@@ -44,7 +44,7 @@ router.post('/update', [
     check('group_id', 'El grupo es obligatorio').not().isEmpty(),
     check('national_team_id', 'EL id del equipo nacional es onligatorio').not().isEmpty(),
     validateFields
-], updateGroup);
+], validateJWT, updateGroup);
 
 router.get('/', validateJWT, getGroups);
 

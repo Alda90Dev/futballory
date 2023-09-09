@@ -9,14 +9,14 @@ router.post('/new', [
     check('type', 'El tipo de estadistica es obligatorio').not().isEmpty(),
     check('match', 'El partido es obligatorio').not().isEmpty(),
     validateFields
-], createStadistic);
+], validateJWT, createStadistic);
 
 router.post('/update', [
     check('_id', 'El id es obligatorio').not().isEmpty(),
     check('type', 'El tipo de estadistica es obligatorio').not().isEmpty(),
     check('match', 'El partido es obligatorio').not().isEmpty(),
     validateFields
-], updateStadistic);
+], validateJWT, updateStadistic);
 
 router.get('/:match', validateJWT, getStadistics);
 

@@ -11,7 +11,7 @@ router.post('/new', [
     check('capacity', 'La capacidad es obligatoria').not().isEmpty(),
     check('capacity', 'La capacidad debe ser un numero').isInt(),
     check('city', 'La ciudad es obligatoria').not().isEmpty(),
-    validateFields
+    validateJWT, validateFields
 ], createStadium);
 
 router.post('/update', [
@@ -22,13 +22,13 @@ router.post('/update', [
     check('capacity', 'La capacidad debe ser un numero').isNumeric(),
     check('city', 'La ciudad es obligatoria').not().isEmpty(),
     validateFields
-], updateStadium);
+], validateJWT, updateStadium);
 
 router.post('/photo', [
     check('_id', 'El id es obligatorio').not().isEmpty(),
     check('photo', 'La imagen es obligatoria').not().isEmpty(),
     validateFields
-], updateImage);
+], validateJWT, updateImage);
 
 router.get('/', validateJWT, getStadiums);
 
