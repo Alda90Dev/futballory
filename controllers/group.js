@@ -30,7 +30,6 @@ const updateGroup = async (req, res = response) => {
         group.wins = wins;
         group.draws = draws;
         group.loses = loses;
-        group.empties = empties;
         group.goals_received = goals_received;
         group.goals_difference = goals_difference;
         group.group_id = group_id;

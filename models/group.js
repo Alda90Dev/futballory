@@ -30,10 +30,6 @@ const GroupSchema = Schema({
         type: Number,
         required: true
     },
-    empties: {
-        type: Number,
-        required: true
-    },
     goals_received: {
         type: Number,
         required: true

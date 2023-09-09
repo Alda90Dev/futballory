@@ -38,7 +38,7 @@ async function updateGroupResultDraw(match) {
         groupLocal.points = groupLocal.points + 1;
         groupLocal.goals = groupLocal.goals + match.local_score;
         groupLocal.matches = groupLocal.matches + 1;
-        groupLocal.empties = groupLocal.empties + 1;
+        groupLocal.draws = groupLocal.draws + 1;
         groupLocal.goals_received = groupLocal.goals_received + match.guest_score;
         groupLocal.goals_difference = groupLocal.goals - groupLocal.goals_received;
 
@@ -49,7 +49,7 @@ async function updateGroupResultDraw(match) {
         groupGuest.points = groupGuest.points + 1;
         groupGuest.goals = groupGuest.goals + match.guest_score;
         groupGuest.matches = groupGuest.matches + 1;
-        groupGuest.empties = groupGuest.empties + 1;
+        groupGuest.draws = groupGuest.draws + 1;
         groupGuest.goals_received = groupGuest.goals_received + match.local_score;
         groupGuest.goals_difference = groupGuest.goals - groupGuest.goals_received;
 
