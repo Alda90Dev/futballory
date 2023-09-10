@@ -9,6 +9,7 @@ const StadisticType = [
     'MISSED PENALTY',
     'SUBSTITUTION',
     'GOAL',
+    'OWN GOAL',
     'SCORED PENALTY SERIE'
 ];
 
