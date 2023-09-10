@@ -43,6 +43,23 @@ const createUser = async (req, res = response) => {
 const login = async (req, res = response) => {
 
     const { email, password } = req.body;
+    const result = await loginProcess(email, password, res);
+    
+    return result;
+
+}
+
+const loginApp = async (req, res = response) => {
+
+    const email = "futballory@gmail.com";
+    const password = process.env.PASSWORD;
+
+    const result = await loginProcess(email, password, res);
+    
+    return result;
+}
+
+async function loginProcess(email, password, res = response) {
 
     try {
         const user = await User.findOne({email});
@@ -57,7 +74,7 @@ const login = async (req, res = response) => {
         if(!validPassword) {
             return res.status(400).json({
                 success: false,
-                message: 'La constraseña es invalida'
+                message: 'La contraseña es invalida'
             });
         }
 
@@ -92,5 +109,6 @@ const renewToken = async (req, res = response) => {
 module.exports = {
     createUser,
     login,
+    loginApp,
     renewToken
 }
