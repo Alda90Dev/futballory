@@ -76,7 +76,7 @@ async function endMatch(_id) {
 async function goal(_id, team) {
     try {
         const match = await Match.findById(_id);
-        console.log(match);
+  
         if (match.local_team.equals(team)) {
             match.local_score ++;
         } else {

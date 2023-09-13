@@ -2,14 +2,23 @@ const { response } = require('express');
 const Group = require('../models/group');
 
 const createGroup = async (req, res = response) => {
+    const { national_team_id } = req.body;
     try {
-        const group = new Group(req.body);
-        await group.save();
+        const group = await Group.findOne({ national_team_id: national_team_id });
+        if (group == null) {
+            const new_group = new Group(req.body);
+            await new_group.save();
 
-        res.json({
-            success: true,
-            group
-        })
+            res.json({
+                success: true,
+                new_group
+            });
+        } else {
+            res.json({
+                success: true,
+                group
+            });
+        }
     }   catch (error) {
         console.log(error);
         res.status(500).json({
@@ -51,7 +60,7 @@ const updateGroup = async (req, res = response) => {
 }
 
 const getGroups = async (req, res = response) => {
-    var groups = await Group.find().lean().populate('national_team_id');
+    var groups = await Group.find().lean().populate('national_team_id').sort({points: 'desc'});
 
     const grouped = groups.reduce((segment, group) => {
         const { group_id } = group;

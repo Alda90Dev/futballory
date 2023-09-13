@@ -6,7 +6,6 @@ const createStadistic = async (req, res = response) => {
     try {
         const stadistic = new Stadistic(req.body);
         const new_stadistic = await stadistic.save();
-        console.log('Stadistic: ', new_stadistic._id);
 
         const isUpdated =  await updateMatch(new_stadistic);
         console.log('isMatchUpdated: ', isUpdated);

@@ -78,7 +78,6 @@ const updateImage = async(req, res = response) => {
 const getPlayers = async (req, res) => {
 
     const national_team_id  = req.params.national_team_id;
-    console.log(national_team_id);
     const players = await Player.find({ national_team_id: national_team_id }).lean();
 
     res.json({
