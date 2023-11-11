@@ -65,19 +65,19 @@ const getMatches = async (req, res) => {
         if (matchGTE != null) {
             const dateGTE = new Date(matchGTE.date);
             /// Aqui puede ser mediante un map
-            const matchesGTE = await Match.find({ date: dateGTE}).lean().populate('local_team').populate('guest_team').populate('stadium');
+            const matches = await Match.find({ date: dateGTE}).lean().populate('local_team').populate('guest_team').populate('stadium');
             
             res.json({
                 success: true,
-                matchesGTE
+                matches
             });
             return;
         } else {
-            const lastMatch = await Match.findOne().lean().populate('local_team').populate('guest_team').populate('stadium').sort({date: 'desc'});
+            const mateches = await Match.findOne().lean().populate('local_team').populate('guest_team').populate('stadium').sort({date: 'desc'});
            
             res.json({
                 success: true,
-                lastMatch
+                matches
             });
             return;
         }
