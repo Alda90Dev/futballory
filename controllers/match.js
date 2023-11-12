@@ -57,7 +57,7 @@ const updateMatch = async (req, res = response) => {
 
 const getMatches = async (req, res) => {
     const date = new Date(req.params.date);
-    const matches = await Match.find({ date: date}).lean().populate('local_team').populate('guest_team').populate('stadium');
+    var matches = await Match.find({ date: date}).lean().populate('local_team').populate('guest_team').populate('stadium');
 
     if (matches.length == 0) {
         const matchGTE = await Match.findOne({ date: {$gte: date }}).select({ date: 1, _id: 0 }).sort({date: 'asc'});
@@ -73,7 +73,7 @@ const getMatches = async (req, res) => {
             });
             return;
         } else {
-            const mateches = await Match.findOne().lean().populate('local_team').populate('guest_team').populate('stadium').sort({date: 'desc'});
+            const matches = await Match.findOne().lean().populate('local_team').populate('guest_team').populate('stadium').sort({date: 'desc'});
            
             res.json({
                 success: true,
