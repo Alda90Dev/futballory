@@ -73,7 +73,9 @@ const getMatches = async (req, res) => {
             });
             return;
         } else {
-            matches = await Match.findOne().lean().populate('local_team').populate('guest_team').populate('stadium').sort({date: 'desc'});
+            const matchLastDate = await Match.findOne().select({ date: 1, _id: 0 }).sort({date: 'desc'});
+            const lastDate = new Date(matchLastDate.date);
+            matches = await Match.find({data: lastDate}).lean().populate('local_team').populate('guest_team').populate('stadium');
            
             res.json({
                 success: true,
