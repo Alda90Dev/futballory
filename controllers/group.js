@@ -60,18 +60,30 @@ const updateGroup = async (req, res = response) => {
 }
 
 const getGroups = async (req, res = response) => {
-    var groups = await Group.find().lean().populate('national_team_id').sort({points: 'desc'});
+    var allGroups = await Group.find().lean().populate('national_team_id').sort({points: 'desc'});
+    const ids = await Group.distinct("group_id").lean();
 
-    const grouped = groups.reduce((segment, group) => {
+    var groups = [];
+    ids.forEach(group_id => {
+        console.log(group_id);
+       const teams = allGroups.filter(group => group.group_id == group_id);
+       const obj = {
+           group: group_id,
+           teams: teams
+       };
+       groups.push(obj);
+    }, {});
+
+    /*const grouped = groups.reduce((segment, group) => {
         const { group_id } = group;
         segment[group_id] = segment[group_id] ?? [];
         segment[group_id].push(group);
         return segment;
-    }, {});
- 
+    }, {});*/
+
     res.json({
         success: true,
-        grouped
+        groups
     });
 }
 
