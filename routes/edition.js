@@ -48,6 +48,6 @@ router.post('/img-landscape', [
     validateFields
 ], validateJWT, updateImgLandscape);
 
-router.get('/', validateJWT, getEditions);
+router.get('/:tournament_id', validateJWT, getEditions);
 
 module.exports = router;
