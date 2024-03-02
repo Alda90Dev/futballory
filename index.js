@@ -37,6 +37,7 @@ app.use('/api/player', require('./routes/player'));
 app.use('/api/group', require('./routes/group'));
 app.use('/api/match', require('./routes/match'));
 app.use('/api/stadistic', require('./routes/stadistic'));
+app.use('/tournament/tournament', require('./routes/tournament'));
 
 app.listen( process.env.PORT, (err) => {
     if (err) throw new Error(err);
