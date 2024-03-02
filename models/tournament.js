@@ -1,4 +1,4 @@
-const { Schema, model, SchemaTypes } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const TournamentScheme =  Schema({
     name: {
@@ -16,7 +16,7 @@ const TournamentScheme =  Schema({
         type: String
     },
     confederation_id: {
-        type: SchemaTypes.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Confederation',
         required: true
     }
