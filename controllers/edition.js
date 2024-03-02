@@ -23,21 +23,21 @@ const updateEdition = async(req, res = response) => {
     const { _id, name, name_en, edition, from_date, to_date, status, host, tournament_id } = req.body;
 
     try {
-        const edition = await Edition.findById(_id);
-        edition.name = name;
-        edition.name_en = name_en;
-        edition.edition = edition;
-        edition.from_date = from_date;
-        edition.to_date = to_date;
-        edition.status = status;
-        edition.host = host;
-        edition.tournament_id = tournament_id;
+        const updateEdition = await Edition.findById(_id);
+        updateEdition.name = name;
+        ediupdateEditiontion.name_en = name_en;
+        updateEdition.edition = edition;
+        updateEdition.from_date = from_date;
+        updateEdition.to_date = to_date;
+        updateEdition.status = status;
+        updateEdition.host = host;
+        updateEdition.tournament_id = tournament_id;
 
-        await edition.save();
+        await updateEdition.save();
 
         res.json({
             success: true,
-            edition
+            updateEdition
         });
     } catch (error) {
         console.log(error);

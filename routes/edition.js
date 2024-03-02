@@ -3,7 +3,6 @@ const { check } = require('express-validator');
 const { createEdition, updateEdition, updateImgThumb, updateImgPortrait, updateImgLandscape, getEditions } = require('../controllers/edition');
 const { validateFields } = require('../middlewares/validate-fields');
 const { validateJWT } = require('../middlewares/validate-jwt');
-const { route } = require('./national_teams');
 const router = Router();
 
 router.post('/new', [
