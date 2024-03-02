@@ -16,7 +16,7 @@ const EditionSchema = Schema({
         required: true
     },
     edition: {
-        type: number,
+        type: Number,
         required: true
     },
     from_date: {
