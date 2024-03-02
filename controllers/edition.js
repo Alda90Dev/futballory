@@ -25,7 +25,7 @@ const updateEdition = async(req, res = response) => {
     try {
         const updateEdition = await Edition.findById(_id);
         updateEdition.name = name;
-        ediupdateEditiontion.name_en = name_en;
+        updateEdition.name_en = name_en;
         updateEdition.edition = edition;
         updateEdition.from_date = from_date;
         updateEdition.to_date = to_date;
