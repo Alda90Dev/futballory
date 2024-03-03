@@ -1,0 +1,17 @@
+const { Router } = require('express');
+const { check } = require('express-validator');
+const { createEditionTeam, getEditionTeams } = require('../controllers/edition_team');
+const { validateFields } = require('../middlewares/validate-fields');
+const { validateJWT } = require('../middlewares/validate-jwt');
+const router = Router();
+
+
+router.post('/new', [
+    check('edition_id', 'El id de la edicion obligatorio').not().isEmpty(),
+    check('national_team_id', 'EL id del equipo es obligatorio').not().isEmpty(),
+    validateFields
+], validateJWT, createEditionTeam);
+
+router.get('/', validateJWT, getEditionTeams);
+
+module.exports = router;
