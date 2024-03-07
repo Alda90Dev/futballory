@@ -41,6 +41,7 @@ app.use('/api/tournament', require('./routes/tournament'));
 app.use('/api/edition', require('./routes/edition'));
 app.use('/api/edition_team', require('./routes/edition_team'));
 app.use('/api/edition_player', require('./routes/edition_player'));
+app.use('/api/edition_stadium', require('./routes/edition_stadium'));
 
 app.listen( process.env.PORT, (err) => {
     if (err) throw new Error(err);
