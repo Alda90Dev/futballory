@@ -39,7 +39,7 @@ app.use('/api/match', require('./routes/match'));
 app.use('/api/stadistic', require('./routes/stadistic'));
 app.use('/api/tournament', require('./routes/tournament'));
 app.use('/api/edition', require('./routes/edition'));
-app.use('/apu/edition_team', require('./routes/edition_team'));
+app.use('/api/edition_team', require('./routes/edition_team'));
 
 app.listen( process.env.PORT, (err) => {
     if (err) throw new Error(err);
