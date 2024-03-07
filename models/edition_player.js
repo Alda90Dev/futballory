@@ -8,7 +8,7 @@ const EditionPlayerSchema = Schema({
     },
     player: {
         type: Schema.Types.ObjectId,
-        ref:'PLayer',
+        ref:'Player',
         required: true
     },
 });
