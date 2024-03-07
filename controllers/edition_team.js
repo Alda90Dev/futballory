@@ -21,7 +21,7 @@ const createEditionTeam = async (req, res = response) => {
 
 const getEditionTeams = async(req, res) => {
     const edition_id = req.params.edition_id;
-    const teams = await EditonInfo.find({ edition_id: edition_id }).lean();
+    const teams = await EditonTeam.find({ edition_id: edition_id }).lean();
 
     res.json({
         success: true,
