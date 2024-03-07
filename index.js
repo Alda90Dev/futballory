@@ -40,6 +40,7 @@ app.use('/api/stadistic', require('./routes/stadistic'));
 app.use('/api/tournament', require('./routes/tournament'));
 app.use('/api/edition', require('./routes/edition'));
 app.use('/api/edition_team', require('./routes/edition_team'));
+app.use('/api/edition_player', require('./routes/edition_player'));
 
 app.listen( process.env.PORT, (err) => {
     if (err) throw new Error(err);
