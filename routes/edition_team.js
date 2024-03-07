@@ -8,7 +8,7 @@ const router = Router();
 
 router.post('/new', [
     check('edition_id', 'El id de la edicion obligatorio').not().isEmpty(),
-    check('national_team_id', 'EL id del equipo es obligatorio').not().isEmpty(),
+    check('team', 'EL id del equipo es obligatorio').not().isEmpty(),
     validateFields
 ], validateJWT, createEditionTeam);
 
