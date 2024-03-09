@@ -6,6 +6,13 @@ const PlayersType = [
     'REFEREE'
 ];
 
+const PlayerStatus = [
+    'ACTIVE',
+    'INACTIVE',
+    'SUSPENDED',
+    'RETIRED'
+];
+
 const PlayerSchema = Schema({
     name: {
         type: String,
@@ -54,6 +61,11 @@ const PlayerSchema = Schema({
     player_type: {
         type: String,
         enum: PlayersType,
+        required: true
+    },
+    player_status: {
+        type: String,
+        enum: PlayerStatus,
         required: true
     },
     national_team_id: {

@@ -20,7 +20,7 @@ const createPlayer = async (req, res = response) => {
 }
 
 const updatePlayer = async(req, res = response) => {
-    const { _id, name, display_name, complete_name, number, birth_place, birth_date, position, code_position, position_en, code_position_en, image, player_type, national_team_id } = req.body;
+    const { _id, name, display_name, complete_name, number, birth_place, birth_date, position, code_position, position_en, code_position_en, image, player_type, player_status, national_team_id } = req.body;
 
     try {
         const player = await Player.findById(_id);
@@ -36,6 +36,7 @@ const updatePlayer = async(req, res = response) => {
         player.code_position_en = code_position_en;
         player.image = image;
         player.player_type = player_type;
+        player.player_status = player_status;
         player.national_team_id = national_team_id;
 
         await player.save();
@@ -86,9 +87,19 @@ const getPlayers = async (req, res) => {
     });
 }
 
+const updateStatus = async(req, res) => {
+    await Player.updateMany({ 'player_status': 'ACTIVE' });
+
+    res.json({
+        success: true,
+        updated: true
+    });
+}
+
 module.exports = {
     createPlayer,
     updatePlayer,
     updateImage,
-    getPlayers
+    getPlayers,
+    updateStatus
 }

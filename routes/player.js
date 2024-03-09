@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createPlayer, updatePlayer, updateImage, getPlayers } = require('../controllers/player');
+const { createPlayer, updatePlayer, updateImage, getPlayers, updateStatus } = require('../controllers/player');
 const { validateFields } = require('../middlewares/validate-fields');
 const { validateJWT } = require('../middlewares/validate-jwt');
 const router = Router();
@@ -18,6 +18,7 @@ router.post('/new', [
     check('position_en', 'La posición en inglés es obligatoria').not().isEmpty(),
     check('code_position_en', 'El codigo de la posición en inglés es obligatorio').not().isEmpty(),
     check('player_type', 'El tipo de jugador es obligatorio').not().isEmpty(),
+    check('player_status', 'El estatus de jugador es obligatorio').not().isEmpty(),
     check('national_team_id', 'EL id del equipo nacional es obligatorio').not().isEmpty(),
     validateFields
 ], validateJWT, createPlayer);
@@ -36,6 +37,7 @@ router.post('/update', [
     check('position_en', 'La posición en inglés es obligatoria').not().isEmpty(),
     check('code_position_en', 'El codigo de la posición en inglés es obligatorio').not().isEmpty(),
     check('player_type', 'El tipo de jugador es obligatorio').not().isEmpty(),
+    check('player_status', 'El estatus de jugador es obligatorio').not().isEmpty(),
     check('national_team_id', 'EL id del equipo nacional es obligatorio').not().isEmpty(),
     validateFields
 ], validateJWT, updatePlayer);
@@ -47,5 +49,8 @@ router.post('/image', [
 ], validateJWT, updateImage);
 
 router.get('/:national_team_id', validateJWT, getPlayers);
+
+router.post('/update-status', [
+], validateJWT, updateStatus);
 
 module.exports = router;
