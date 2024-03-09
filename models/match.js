@@ -86,6 +86,11 @@ const MatchSchema = Schema({
         enum: ResultMatch,
         required: false
     },
+    edition_id: {
+        type: Schema.Types.ObjectId,
+        ref:'Edition',
+        required: true
+    },
     stadium: {
         type: Schema.Types.ObjectId,
         ref:'Stadium',

@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createMatch, updateMatch, getMatches, getDates } = require('../controllers/match');
+const { createMatch, updateMatch, getMatches, getDates, updateEdition } = require('../controllers/match');
 const { validateFields } = require('../middlewares/validate-fields');
 const { validateJWT } = require('../middlewares/validate-jwt');
 const router = Router();
@@ -16,6 +16,7 @@ router.post('/new', [
     check('guest_score', 'El marcador del equipo visitante debe ser un numero').isInt(),
     check('stage', 'La fase del partido es obligatorio').not().isEmpty(),
     check('status', 'El estatus del partido es obligatorio').not().isEmpty(),
+    check('edition_id', 'La edicion del partido es obligatoria').not().isEmpty(),
     check('stadium', 'El estadion es obligatorio').not().isEmpty(),
     validateFields
 ], validateJWT, createMatch);
@@ -32,12 +33,18 @@ router.post('/update', [
     check('guest_score', 'El marcador del equipo visitante debe ser un numero').isInt(),
     check('stage', 'La fase del partido es obligatorio').not().isEmpty(),
     check('status', 'El estatus del partido es obligatorio').not().isEmpty(),
+    check('edition_id', 'La edicion del partido es obligatoria').not().isEmpty(),
     check('stadium', 'El estadion es obligatorio').not().isEmpty(),
     validateFields
 ], validateJWT, updateMatch);
 
-router.get('/:date', validateJWT, getMatches);
+router.get('/:date/:edition_id', validateJWT, getMatches);
 
-router.get('/', validateJWT, getDates);
+router.get('/:edition_id', validateJWT, getDates);
+
+router.post('/update-edition', [
+    check('edition_id', 'La edicion es obligatoria').not().isEmpty(),
+    validateFields
+], validateJWT, updateEdition);
 
 module.exports = router;
