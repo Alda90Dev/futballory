@@ -10,17 +10,7 @@ const EditionTeamSchema = Schema({
         type: Schema.Types.ObjectId,
         ref:'NationalTeam',
         required: true
-    },
-    /*player: {
-        type: Schema.Types.ObjectId,
-        ref:'Player',
-        required: false
-    },
-    stadium: {
-        type: Schema.Types.ObjectId,
-        ref:'Stadium',
-        required: false
-    },*/
+    }
 });
 
 EditionTeamSchema.method('toJSON', function() {

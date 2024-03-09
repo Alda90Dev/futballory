@@ -11,6 +11,11 @@ const EditionPlayerSchema = Schema({
         ref:'Player',
         required: true
     },
+    team: {
+        type: Schema.Types.ObjectId,
+        ref:'NationalTeam',
+        required: true
+    },
 });
 
 EditionPlayerSchema.method('toJSON', function() {

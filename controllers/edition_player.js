@@ -21,7 +21,11 @@ const createEditionPlayer = async (req, res = response) => {
 
 const getEditionPlayers = async(req, res) => {
     const edition_id = req.params.edition_id;
-    const players = await EditionPlayer.find({ edition_id: edition_id }).populate('player').lean();
+    const team = req.params.team;
+
+    const players = await EditionPlayer.find({ edition_id: edition_id, team: team})
+                                        .populate('player')
+                                        .lean();
 
     res.json({
         success: true,

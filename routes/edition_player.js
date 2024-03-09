@@ -12,6 +12,6 @@ router.post('/new', [
     validateFields
 ], validateJWT, createEditionPlayer);
 
-router.get('/:edition_id', validateJWT, getEditionPlayers);
+router.get('/:edition_id/:team', validateJWT, getEditionPlayers);
 
 module.exports = router;
