@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createGroup, updateGroup, getGroups } = require('../controllers/group');
+const { createGroup, updateGroup, getGroups, updateEdition } = require('../controllers/group');
 const { validateFields } = require('../middlewares/validate-fields');
 const { validateJWT } = require('../middlewares/validate-jwt');
 const router = Router();
@@ -23,6 +23,7 @@ router.post('/new', [
     check('goals_difference', 'Los goles de diferencia son obligatorios').not().isEmpty(),
     check('goals_difference', 'Los goles de diferencia deben ser numeros').isInt(),
     check('group_id', 'El grupo es obligatorio').not().isEmpty(),
+    check('edition_id', 'La edicion es obligatoria').not().isEmpty(),
     check('national_team_id', 'EL id del equipo nacional es onligatorio').not().isEmpty(),
     validateFields
 ], validateJWT, createGroup);
@@ -46,10 +47,16 @@ router.post('/update', [
     check('goals_difference', 'Los goles de diferencia son obligatorios').not().isEmpty(),
     check('goals_difference', 'Los goles de diferencia deben ser numeros').isInt(),
     check('group_id', 'El grupo es obligatorio').not().isEmpty(),
+    check('edition_id', 'La edicion es obligatoria').not().isEmpty(),
     check('national_team_id', 'EL id del equipo nacional es onligatorio').not().isEmpty(),
     validateFields
 ], validateJWT, updateGroup);
 
-router.get('/', validateJWT, getGroups);
+router.get('/:edition_id', validateJWT, getGroups);
+
+router.post('/update-edition', [
+    check('edition_id', 'La edicion es obligatoria').not().isEmpty(),
+    validateFields
+], validateJWT, updateEdition);
 
 module.exports = router;

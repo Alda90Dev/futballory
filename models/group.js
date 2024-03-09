@@ -43,6 +43,11 @@ const GroupSchema = Schema({
         enum: Groups,
         required: true
     },
+    edition_id: {
+        type: Schema.Types.ObjectId,
+        ref:'Edition',
+        required: true
+    },
     national_team_id: {
         type: Schema.Types.ObjectId,
         ref:'NationalTeam',

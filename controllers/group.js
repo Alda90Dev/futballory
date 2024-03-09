@@ -29,7 +29,7 @@ const createGroup = async (req, res = response) => {
 }
 
 const updateGroup = async (req, res = response) => {
-    const { _id, points, goals, matches, wins, draws, loses, goals_received, goals_difference, group_id, national_team_id } = req.body;
+    const { _id, points, goals, matches, wins, draws, loses, goals_received, goals_difference, group_id, edition_id, national_team_id } = req.body;
 
     try {
         const group = await Group.findById(_id);
@@ -42,6 +42,7 @@ const updateGroup = async (req, res = response) => {
         group.goals_received = goals_received;
         group.goals_difference = goals_difference;
         group.group_id = group_id;
+        group.edition_id = edition_id;
         group.national_team_id = national_team_id;
 
         group.save();
@@ -60,7 +61,8 @@ const updateGroup = async (req, res = response) => {
 }
 
 const getGroups = async (req, res = response) => {
-    var allGroups = await Group.find().lean().populate('national_team_id').sort({points: 'desc'});
+    const edition_id = req.params.edition_id;
+    var allGroups = await Group.find({ edition_id: edition_id }).lean().populate('national_team_id').sort({points: 'desc'});
     const ids = await Group.distinct("group_id").lean();
 
     var groups = [];
@@ -87,8 +89,20 @@ const getGroups = async (req, res = response) => {
     });
 }
 
+const updateEdition = async(req, res) => {
+    const { edition_id } = req.body;
+
+    await Group.updateMany({ 'edition_id': edition_id });
+
+    res.json({
+        success: true,
+        updated: true
+    });
+}
+
 module.exports = {
     createGroup,
     updateGroup,
-    getGroups
+    getGroups,
+    updateEdition
 }
