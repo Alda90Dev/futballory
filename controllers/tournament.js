@@ -90,7 +90,7 @@ const updateImage2 = async(req, res = response) => {
 }
 
 const getTournaments = async (req, res = response) => {
-    const tournaments = await Tournament.find().lean();
+    const tournaments = await Tournament.find().populate('confederation_id').lean();
 
     res.json({
         success: true,
