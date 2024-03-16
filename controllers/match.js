@@ -1,5 +1,6 @@
 const { response } = require('express');
 const Match = require('../models/match');
+const Edition = require('../models/edition');
 
 const createMatch = async (req, res = response) => {
     try {
@@ -60,34 +61,30 @@ const getMatches = async (req, res) => {
     const date = new Date(req.params.date);
     const edition_id = req.params.edition_id;
 
-    var matches = await Match.find({ date: date, edition_id: edition_id }).lean().populate('local_team').populate('guest_team').populate('stadium');
+    const edition = await Edition.findOne({ _id: edition_id }, 'name name_en').lean();
+    var allMatches = await Match.find({ date: date, edition_id: edition_id }).lean().populate('local_team').populate('guest_team').populate('stadium');
+    const editions = [edition];
+    var matches;
 
-    if (matches.length == 0) {
+    if (allMatches.length == 0) {
+        console.log('No hay fechas');
         const matchGTE = await Match.findOne({ date: {$gte: date }, edition_id: edition_id }).select({ date: 1, _id: 0 }).sort({date: 'asc'});
-
-        if (matchGTE != null) {
-
+        
+        if (matchGTE != null) { 
+            console.log('La fecha es menor a la fecha de apertura');
             const dateGTE = new Date(matchGTE.date);
-            /// Aqui puede ser mediante un map
-            matches = await Match.find({ date: dateGTE, edition_id: edition_id }).lean().populate('local_team').populate('guest_team').populate('stadium');
-            
-            res.json({
-                success: true,
-                matches
-            });
-            return;
+            allMatches = await Match.find({ date: dateGTE, edition_id: edition_id }).lean().populate('local_team').populate('guest_team').populate('stadium');
         } else {
+            console.log('Ultima fecha');
             const matchLastDate = await Match.findOne({ edition_id: edition_id }).select({ date: 1, _id: 0 }).sort({date: 'desc'});
             const lastDate = new Date(matchLastDate.date);
-            matches = await Match.find({ date: lastDate, edition_id: edition_id }).lean().populate('local_team').populate('guest_team').populate('stadium');
-
-            res.json({
-                success: true,
-                matches
-            });
-            return;
+            allMatches = await Match.find({ date: lastDate, edition_id: edition_id }).lean().populate('local_team').populate('guest_team').populate('stadium');
         }
-       
+
+        matches = await setMatchesJson(editions, allMatches);
+    } else {
+        console.log('Si hay fechas');
+        matches = await setMatchesJson(editions, allMatches);
     }
 
     res.json({
@@ -96,10 +93,78 @@ const getMatches = async (req, res) => {
     });
 }
 
+const getMatchesByEditions = async (req, res) => {
+    const date = new Date(req.params.date);
+
+    const editions = await Edition.find({ status: 'ACTIVE' }, 'name name_en').lean();
+    const editionsIds = editions.map(edition => edition._id);
+    var allMatches = await Match.find({ date: date, edition_id: { $in: editionsIds } }).lean().populate('local_team').populate('guest_team').populate('stadium');
+    var matches;
+
+    if (allMatches.length == 0) {
+        console.log('No hay fechas');
+        const matchGTE = await Match.findOne({ date: {$gte: date }, edition_id: { $in: editionsIds } }).select({ date: 1, _id: 0 }).sort({date: 'asc'});
+        
+        if (matchGTE != null) { 
+            console.log('La fecha es menor a la fecha de apertura');
+            const dateGTE = new Date(matchGTE.date);
+            allMatches = await Match.find({ date: dateGTE, edition_id: { $in: editionsIds } }).lean().populate('local_team').populate('guest_team').populate('stadium');
+        } else {
+            console.log('Ultima fecha');
+            const matchLastDate = await Match.findOne({ edition_id: { $in: editionsIds } }).select({ date: 1, _id: 0 }).sort({date: 'desc'});
+            const lastDate = new Date(matchLastDate.date);
+            allMatches = await Match.find({ date: lastDate, edition_id: { $in: editionsIds } }).lean().populate('local_team').populate('guest_team').populate('stadium');
+        }
+
+        matches = await setMatchesJson(editions, allMatches);
+    } else {
+        console.log('Si hay fechas');
+        matches = await setMatchesJson(editions, allMatches);
+    }
+
+    res.json({
+        success: true,
+        matches
+    });
+}
+
+async function setMatchesJson(editions, allMatches) {
+    const matches = [];
+    editions.forEach(edit => {
+        const matchesByEdition = allMatches.filter(match => match.edition_id.equals(edit._id));
+        const objByEditions = {
+            _id: edit._id,
+            edition: edit.name,
+            edition_en: edit.name_en,
+            matches: matchesByEdition
+        };
+        matches.push(objByEditions);
+    }, {});
+
+    return matches
+} 
+
 const getDates = async (req, res) => {
     const edition_id = req.params.edition_id;
-    const dates = await Match.find({ edition_id: edition_id  }).distinct("date").lean();
+   try {
+        const dates = await Match.find({ edition_id: edition_id }).distinct("date").lean();
     // .find().select({ date: 1, _id: 0 }).lean().sort({date: 'asc'});
+
+        res.json({
+            success: true,
+            dates
+        });
+    } catch(error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error de servidor'
+        });
+    }
+}
+
+const getDatesByEditions = async (req, res) => {
+    const editions = await Edition.find({ status: 'ACTIVE' }).distinct('_id');
+    const dates = await Match.find({ edition_id: { $in: editions } }).distinct("date").lean();
 
     res.json({
         success: true,
@@ -123,5 +188,7 @@ module.exports = {
     updateMatch,
     getMatches,
     getDates,
-    updateEdition
+    updateEdition,
+    getDatesByEditions,
+    getMatchesByEditions
 }

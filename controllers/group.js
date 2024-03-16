@@ -1,5 +1,6 @@
 const { response } = require('express');
 const Group = require('../models/group');
+const Edition = require('../models/edition');
 
 const createGroup = async (req, res = response) => {
     const { national_team_id } = req.body;
@@ -62,31 +63,72 @@ const updateGroup = async (req, res = response) => {
 
 const getGroups = async (req, res = response) => {
     const edition_id = req.params.edition_id;
-    var allGroups = await Group.find({ edition_id: edition_id }).lean().populate('national_team_id').sort({points: 'desc'});
-    const ids = await Group.distinct("group_id").lean();
+    
+    try {
+        const edition = await Edition.findOne({ _id: edition_id }, 'name name_en').lean();
+        const allGroups = await Group.find({ edition_id: edition_id }).lean().populate('national_team_id').sort({points: 'desc'});
 
-    var groups = [];
-    ids.forEach(group_id => {
-        console.log(group_id);
-       const teams = allGroups.filter(group => group.group_id == group_id);
-       const obj = {
-           group: group_id,
-           teams: teams
-       };
-       groups.push(obj);
-    }, {});
+        const editions = [edition];
+        const groups = await setGroupsJson(editions, allGroups);
+    
+        res.json({
+            success: true,
+            groups
+        });
+    } catch(error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Error de servidor'
+        });
+    }
+   
+}
 
-    /*const grouped = groups.reduce((segment, group) => {
-        const { group_id } = group;
-        segment[group_id] = segment[group_id] ?? [];
-        segment[group_id].push(group);
-        return segment;
-    }, {});*/
+const getGroupsByEditions = async (req, res = response) => {
 
+    const editions = await Edition.find({ status: 'ACTIVE' }, 'name name_en').lean();
+    const editionsIds = editions.map(edition => edition._id);
+    const allGroups = await Group.find({ edition_id: { $in: editionsIds } }).lean().populate('national_team_id').sort({points: 'desc'});
+
+    const groups = await setGroupsJson(editions, allGroups);
+    
     res.json({
         success: true,
         groups
     });
+}
+
+async function setGroupsJson(editions, allGroups) {
+    var groups = [];
+    editions.forEach(edition => {
+        console.log(edition._id);
+        const groupIds = [... new Set(allGroups.map ((group) => { 
+            if (group.edition_id.equals(edition._id)) {
+                return group.group_id;
+            }
+        }))];
+
+        var groupTeams = [];
+        groupIds.forEach(id => {
+            const teams = allGroups.filter(group => group.group_id == id);
+            const objGroupTeams = {
+                group: id,
+                teams: teams
+            };
+            groupTeams.push(objGroupTeams);
+        }, {});
+
+        const objByEditions = {
+            _id: edition._id,
+            edition: edition.name,
+            edition_en: edition.name_en,
+            groups: groupTeams
+        };
+        groups.push(objByEditions);
+    }, {});
+
+    return groups
 }
 
 const updateEdition = async(req, res) => {
@@ -104,5 +146,6 @@ module.exports = {
     createGroup,
     updateGroup,
     getGroups,
+    getGroupsByEditions,
     updateEdition
 }

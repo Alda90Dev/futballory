@@ -116,7 +116,7 @@ const updateImgLandscape = async(req, res = response) => {
 
 const getEditions = async(req, res) => {
     const tournament_id = req.params.tournament_id;
-    const editions = await Edition.find({ tournament_id: tournament_id });
+    const editions = await Edition.find({ tournament_id: tournament_id }).lean();
 
     res.json({
         success: true,
