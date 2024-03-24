@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createGroup, updateGroup, getGroups, getGroupsByEditions, updateEdition } = require('../controllers/group');
+const { createGroup, updateGroup, getGroups, getGroupsByEdition, updateEdition } = require('../controllers/group');
 const { validateFields } = require('../middlewares/validate-fields');
 const { validateJWT } = require('../middlewares/validate-jwt');
 const router = Router();
@@ -52,9 +52,9 @@ router.post('/update', [
     validateFields
 ], validateJWT, updateGroup);
 
-router.get('/:edition_id', validateJWT, getGroups);
+router.get('/:edition_id', validateJWT, getGroupsByEdition);
 
-router.get('/', validateJWT, getGroupsByEditions);
+router.get('/', validateJWT, getGroups);
 
 router.post('/update-edition', [
     check('edition_id', 'La edicion es obligatoria').not().isEmpty(),

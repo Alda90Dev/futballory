@@ -61,7 +61,7 @@ const updateGroup = async (req, res = response) => {
     }
 }
 
-const getGroups = async (req, res = response) => {
+const getGroupsByEdition = async (req, res = response) => {
     const edition_id = req.params.edition_id;
     
     try {
@@ -73,7 +73,7 @@ const getGroups = async (req, res = response) => {
     
         res.json({
             success: true,
-            groups
+            editions: groups
         });
     } catch(error) {
         console.log(error);
@@ -85,7 +85,7 @@ const getGroups = async (req, res = response) => {
    
 }
 
-const getGroupsByEditions = async (req, res = response) => {
+const getGroups = async (req, res = response) => {
 
     const editions = await Edition.find({ status: 'ACTIVE' }, 'name name_en').lean();
     const editionsIds = editions.map(edition => edition._id);
@@ -95,7 +95,7 @@ const getGroupsByEditions = async (req, res = response) => {
     
     res.json({
         success: true,
-        groups
+        editions: groups
     });
 }
 
@@ -146,6 +146,6 @@ module.exports = {
     createGroup,
     updateGroup,
     getGroups,
-    getGroupsByEditions,
+    getGroupsByEdition,
     updateEdition
 }

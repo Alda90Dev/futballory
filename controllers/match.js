@@ -57,7 +57,7 @@ const updateMatch = async (req, res = response) => {
     }
 }
 
-const getMatches = async (req, res) => {
+const getMatchesByEdition = async (req, res) => {
     const date = new Date(req.params.date);
     const edition_id = req.params.edition_id;
 
@@ -89,11 +89,11 @@ const getMatches = async (req, res) => {
 
     res.json({
         success: true,
-        matches
+        editions: matches
     });
 }
 
-const getMatchesByEditions = async (req, res) => {
+const getMatches = async (req, res) => {
     const date = new Date(req.params.date);
 
     const editions = await Edition.find({ status: 'ACTIVE' }, 'name name_en').lean();
@@ -124,7 +124,7 @@ const getMatchesByEditions = async (req, res) => {
 
     res.json({
         success: true,
-        matches
+        editions: matches
     });
 }
 
@@ -144,7 +144,7 @@ async function setMatchesJson(editions, allMatches) {
     return matches
 } 
 
-const getDates = async (req, res) => {
+const getDatesByEdition = async (req, res) => {
     const edition_id = req.params.edition_id;
    try {
         const dates = await Match.find({ edition_id: edition_id }).distinct("date").lean();
@@ -162,7 +162,7 @@ const getDates = async (req, res) => {
     }
 }
 
-const getDatesByEditions = async (req, res) => {
+const getDates = async (req, res) => {
     const editions = await Edition.find({ status: 'ACTIVE' }).distinct('_id');
     const dates = await Match.find({ edition_id: { $in: editions } }).distinct("date").lean();
 
@@ -189,6 +189,6 @@ module.exports = {
     getMatches,
     getDates,
     updateEdition,
-    getDatesByEditions,
-    getMatchesByEditions
+    getDatesByEdition,
+    getMatchesByEdition
 }

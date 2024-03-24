@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createEditionTeam, getEditionTeams } = require('../controllers/edition_team');
+const { createEditionTeam, getTeamsByEdition, getTeams } = require('../controllers/edition_team');
 const { validateFields } = require('../middlewares/validate-fields');
 const { validateJWT } = require('../middlewares/validate-jwt');
 const router = Router();
@@ -12,6 +12,7 @@ router.post('/new', [
     validateFields
 ], validateJWT, createEditionTeam);
 
-router.get('/:edition_id', validateJWT, getEditionTeams);
+router.get('/:edition_id', validateJWT, getTeamsByEdition);
+router.get('/', validateJWT, getTeams);
 
 module.exports = router;
