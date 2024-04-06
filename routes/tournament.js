@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createTournament, updateTournament, updateImage, updateImage2, getTournaments } = require('../controllers/tournament');
+const { createTournament, updateTournament, updateImage, updateImage2, getTournaments, updateStatus } = require('../controllers/tournament');
 const { validateFields } = require('../middlewares/validate-fields');
 const { validateJWT } = require('../middlewares/validate-jwt');
 const router = Router();
@@ -34,5 +34,10 @@ router.post('/image2', [
 ], validateJWT, updateImage2);
 
 router.get('/', validateJWT, getTournaments);
+
+router.post('/update-status', [
+    check('status', 'el status es obligatorio').not().isEmpty(),
+    validateFields
+], validateJWT, updateStatus);
 
 module.exports = router;

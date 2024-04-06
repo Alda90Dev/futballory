@@ -1,5 +1,10 @@
 const { Schema, model } = require('mongoose');
 
+const TournamentStatus = [
+    'ACTIVE',
+    'INACTIVE'
+];
+
 const TournamentScheme =  Schema({
     name: {
         type: String,
@@ -19,7 +24,12 @@ const TournamentScheme =  Schema({
         type: Schema.Types.ObjectId,
         ref: 'Confederation',
         required: true
-    }
+    },
+    tournament_status: {
+        type: String,
+        enum: TournamentStatus,
+        required: true
+    },
 });
 
 TournamentScheme.method('toJSON', function() {

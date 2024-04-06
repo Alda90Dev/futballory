@@ -20,7 +20,7 @@ const createTournament = async (req, res = response) => {
 }
 
 const updateTournament = async(req, res = response) => {
-    const { _id, name, name_en, image, image2, confederation_id } = req.body;
+    const { _id, name, name_en, image, image2, confederation_id, tournament_status } = req.body;
 
     try {
         const tournament = await Tournament.findById(_id);
@@ -29,6 +29,7 @@ const updateTournament = async(req, res = response) => {
         tournament.image = image;
         tournament.image2 = image2;
         tournament.confederation_id = confederation_id;
+        tournament.tournament_status = tournament_status;
 
         await tournament.save();
 
@@ -90,11 +91,21 @@ const updateImage2 = async(req, res = response) => {
 }
 
 const getTournaments = async (req, res = response) => {
-    const tournaments = await Tournament.find().populate('confederation_id').lean();
+    const tournaments = await Tournament.find({ status: 'ACTIVE' }).populate('confederation_id').lean();
 
     res.json({
         success: true,
         tournaments
+    });
+}
+
+const updateStatus = async(req, res) => {
+    const { status } = req.body;
+    await Tournament.updateMany({ 'tournament_status': status });
+
+    res.json({
+        success: true,
+        updated: true
     });
 }
 
@@ -103,5 +114,6 @@ module.exports = {
     updateTournament,
     updateImage,
     updateImage2,
-    getTournaments
+    getTournaments,
+    updateStatus
 }
