@@ -1,9 +1,10 @@
 const Match = require('../models/match');
+const Player = require('../models/player');
 const { setMatchResult } = require('../controllers/match_results');
 const { updateGroupResultWinner, updateGroupResultDraw } = require('../controllers/group_results');
 
 async function updateMatch(stadistic) {
-    const { match, type, team } = stadistic;
+    const { match, type, player } = stadistic;
 
     var result = false;
     switch (type) {
@@ -14,10 +15,10 @@ async function updateMatch(stadistic) {
             result = await endMatch(match);
             break;
         case 'GOAL':
-            result = await goal(match, team);
+            result = await goal(match, player);
             break;
         case 'SCORED PENALTY SERIE':
-            result = await penaltyGoal(match, team);
+            result = await penaltyGoal(match, player);
             break;
         default:
             return result;
@@ -73,11 +74,12 @@ async function endMatch(_id) {
     }
 }
 
-async function goal(_id, team) {
+async function goal(_id, player_id) {
     try {
         const match = await Match.findById(_id);
+        const player = await Player.findById(player_id);
   
-        if (match.local_team.equals(team)) {
+        if (match.local_team.equals(player.national_team_id)) {
             match.local_score ++;
         } else {
             match.guest_score ++;
@@ -92,10 +94,12 @@ async function goal(_id, team) {
     }
 }
 
-async function penaltyGoal(_id, team) {
+async function penaltyGoal(_id, player_id) {
     try {
         const match = await Match.findById(_id);
-        if (match.local_team.equals(team)) {
+        const player = await Player.findById(player_id);
+        
+        if (match.local_team.equals(player.national_team_id)) {
             match.local_penalties_score ++;
         } else {
             match.guest_penalties_score ++;

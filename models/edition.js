@@ -3,7 +3,8 @@ const { Schema, model } = require('mongoose');
 const TournamentStatus = [
     'ACTIVE',
     'SUSPENDED',
-    'FINISHED'
+    'FINISHED',
+    'INACTIVE'
 ];
 
 const EditionSchema = Schema({
