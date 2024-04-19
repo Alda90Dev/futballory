@@ -17,6 +17,9 @@ async function updateMatch(stadistic) {
         case 'GOAL':
             result = await goal(match, player);
             break;
+        case 'OWN GOAL':
+            result = await ownGoal(match, player);
+            break;
         case 'SCORED PENALTY SERIE':
             result = await penaltyGoal(match, player);
             break;
@@ -83,6 +86,26 @@ async function goal(_id, player_id) {
             match.local_score ++;
         } else {
             match.guest_score ++;
+        }
+
+        await match.save();
+        return true;
+
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+async function ownGoal(_id, player_id) {
+    try {
+        const match = await Match.findById(_id);
+        const player = await Player.findById(player_id);
+  
+        if (match.local_team.equals(player.national_team_id)) {
+            match.guest_score ++;
+        } else {
+            match.local_score ++;
         }
 
         await match.save();
