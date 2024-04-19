@@ -66,7 +66,7 @@ const getGroupsByEdition = async (req, res = response) => {
     
     try {
         const edition = await Edition.findOne({ _id: edition_id }, 'name name_en').lean();
-        const allGroups = await Group.find({ edition_id: edition_id }).lean().populate('national_team_id').sort({points: 'desc', goals_difference: 'desc'});
+        const allGroups = await Group.find({ edition_id: edition_id }).lean().populate('national_team_id').sort({points: 'desc', goals_difference: 'desc', goals: 'desc'});
 
         const editions = [edition];
         const groups = await setGroupsJson(editions, allGroups);
@@ -89,7 +89,7 @@ const getGroups = async (req, res = response) => {
 
     const editions = await Edition.find({ status: 'ACTIVE' }, 'name name_en').lean();
     const editionsIds = editions.map(edition => edition._id);
-    const allGroups = await Group.find({ edition_id: { $in: editionsIds } }).lean().populate('national_team_id').sort({points: 'desc', goals_difference: 'desc'});
+    const allGroups = await Group.find({ edition_id: { $in: editionsIds } }).lean().populate('national_team_id').sort({points: 'desc', goals_difference: 'desc', goals: 'desc' });
 
     const groups = await setGroupsJson(editions, allGroups);
     
