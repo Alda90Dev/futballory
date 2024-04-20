@@ -10,7 +10,10 @@ const StadisticType = [
     'SUBSTITUTION',
     'GOAL',
     'OWN GOAL',
-    'SCORED PENALTY SERIE'
+    'EXTRA TIME',
+    'PENALTY SERIES',
+    'SCORED PENALTY SERIE',
+    'MISSED PENALTY SERIE'
 ];
 
 const StadisticSchema = Schema({
