@@ -5,21 +5,22 @@ const Edition = require('../models/edition');
 const createGroup = async (req, res = response) => {
     const { national_team_id } = req.body;
     try {
-        const group = await Group.findOne({ national_team_id: national_team_id });
-        if (group == null) {
-            const new_group = new Group(req.body);
-            await new_group.save();
+        //const group = await Group.findOne({ national_team_id: national_team_id });
+        const new_group = new Group(req.body);
+        await new_group.save();
 
-            res.json({
-                success: true,
-                new_group
-            });
+        res.json({
+            success: true,
+            new_group
+        });
+        /*if (group == null) {
+            
         } else {
             res.json({
                 success: true,
                 group
             });
-        }
+        }*/
     }   catch (error) {
         console.log(error);
         res.status(500).json({
