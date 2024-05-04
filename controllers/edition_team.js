@@ -4,7 +4,7 @@ const EditionTeam = require('../models/edition_team');
 
 const createEditionTeam = async (req, res = response) => {
     try {
-        const editionTeam = new EditonTeam(req.body);
+        const editionTeam = new EditionTeam(req.body);
         await editionTeam.save();   
 
         res.json({
