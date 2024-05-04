@@ -5,7 +5,8 @@ const Continents = [
     'EUROPA',
     'AFRICA',
     'ASIA',
-    'OCEANIA'
+    'OCEANIA',
+    'MUNDO'
 ];
 
 const NationalTeamSchema = Schema({

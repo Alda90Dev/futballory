@@ -15,7 +15,7 @@ const createMatch = async (req, res = response) => {
         console.log(error);
         res.status(500).json({
             success: false,
-            message: error
+            message: 'Error de servidor'
         });
     }
 }
