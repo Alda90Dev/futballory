@@ -68,7 +68,7 @@ const getGroupsByEdition = async (req, res = response) => {
     try {
         const edition = await Edition.findOne({ _id: edition_id }, 'name name_en').lean();
         const allGroups = await Group.find({ edition_id: edition_id }).lean().populate('national_team_id').sort({points: 'desc', goals_difference: 'desc', goals: 'desc'});
-
+        
         const editions = [edition];
         const groups = await setGroupsJson(editions, allGroups);
     
@@ -87,7 +87,6 @@ const getGroupsByEdition = async (req, res = response) => {
 }
 
 const getGroups = async (req, res = response) => {
-
     const editions = await Edition.find({ status: 'ACTIVE' }, 'name name_en').lean();
     const editionsIds = editions.map(edition => edition._id);
     const allGroups = await Group.find({ edition_id: { $in: editionsIds } }).lean().populate('national_team_id').sort({points: 'desc', goals_difference: 'desc', goals: 'desc' });
@@ -103,16 +102,14 @@ const getGroups = async (req, res = response) => {
 async function setGroupsJson(editions, allGroups) {
     var groups = [];
     editions.forEach(edition => {
-        console.log(edition._id);
-        const groupIds = [... new Set(allGroups.map ((group) => { 
-            if (group.edition_id.equals(edition._id)) {
-                return group.group_id;
-            }
-        }))];
-        groupIds.sort();
+
+        const editionIds = allGroups.filter(group => group.edition_id.equals(edition._id)).map((group) => group.group_id);
+        const groupIds = [... new Set(editionIds)];
         var groupTeams = [];
         groupIds.forEach(id => {
-            const teams = allGroups.filter(group => group.group_id == id);
+            const teams = allGroups.filter(function (group) {
+                return group.group_id == id && group.edition_id.equals(edition._id);
+            });
             const objGroupTeams = {
                 group: id,
                 teams: teams
