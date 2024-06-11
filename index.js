@@ -13,8 +13,8 @@ const app = express();
 
 //CORS
 app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin, Origin, Authorization, X-Requested-With, Content-Type, Accept, Credentials, x-token');
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'access-control-allow-methods, Origin, Authorization, X-Requested-With, Content-Type, Accept, Credentials, x-token');
     res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
