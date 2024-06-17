@@ -56,7 +56,6 @@ async function endMatch(_id) {
 
         if (stage == 'GROUPS') {
             const result = updated_match.result;
-
             switch (result) {
                 case 'WINNER':
                     updateGroupResultWinner(updated_match);

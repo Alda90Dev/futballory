@@ -1,9 +1,10 @@
 const Group = require('../models/group');
+const Team = require('../models/national_teams');
 
 async function updateGroupResultWinner(match) {
     try {
-        const groupWinner = await Group.findOne({ national_team_id: match.winner });
-
+        const groupWinner = await Group.findOne({ national_team_id: match.winner, edition_id: match.edition_id });
+  
         groupWinner.points = groupWinner.points + 3;
         groupWinner.goals = groupWinner.goals + match.winner_score;
         groupWinner.matches = groupWinner.matches + 1;
@@ -13,8 +14,8 @@ async function updateGroupResultWinner(match) {
 
         await groupWinner.save();
 
-        const groupLoser = await Group.findOne({ national_team_id: match.loser });
-
+        const groupLoser = await Group.findOne({ national_team_id: match.loser, edition_id: match.edition_id });
+        
         groupLoser.goals = groupLoser.goals + match.loser_score;
         groupLoser.matches = groupLoser.matches + 1;
         groupLoser.loses = groupLoser.loses + 1;
