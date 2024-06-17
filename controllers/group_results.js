@@ -15,7 +15,7 @@ async function updateGroupResultWinner(match) {
         await groupWinner.save();
 
         const groupLoser = await Group.findOne({ national_team_id: match.loser, edition_id: match.edition_id });
-        
+
         groupLoser.goals = groupLoser.goals + match.loser_score;
         groupLoser.matches = groupLoser.matches + 1;
         groupLoser.loses = groupLoser.loses + 1;
@@ -34,7 +34,7 @@ async function updateGroupResultWinner(match) {
 
 async function updateGroupResultDraw(match) {
     try {
-        const groupLocal = await Group.findOne({ national_team_id: match.local_team });
+        const groupLocal = await Group.findOne({ national_team_id: match.local_team, edition_id: match.edition_id });
         
         groupLocal.points = groupLocal.points + 1;
         groupLocal.goals = groupLocal.goals + match.local_score;
@@ -45,7 +45,7 @@ async function updateGroupResultDraw(match) {
 
         await groupLocal.save();
  
-        const groupGuest = await Group.findOne({ national_team_id: match.guest_team });
+        const groupGuest = await Group.findOne({ national_team_id: match.guest_team, edition_id: match.edition_id });
 
         groupGuest.points = groupGuest.points + 1;
         groupGuest.goals = groupGuest.goals + match.guest_score;
