@@ -48,8 +48,33 @@ const updateEditionPlayer = async(req, res = response) => {
     });
 }
 
+const updateImgNumberEditionPlayer = async(req, res = response) => {
+    const { team } = req.body;
+    
+    const players = await EditionPlayer.find({ edition_id: '66357a0bb4abf1bf05eb1e7d', team: team })
+                                        .populate('player')
+                                        .lean();
+    players.forEach(player => {
+        setImgNumber(player);
+    }, {});
+
+    res.json({
+        success: true,
+        players
+    });
+}
+
+async function setImgNumber(player) {
+    const editPlayer = await EditionPlayer.find({ _id: player._id });
+    editPlayer.number = player.player.number;
+    editPlayer.image = player.player.image;
+
+    await editPlayer.save();
+}
+
 module.exports = {
     createEditionPlayer,
     getEditionPlayers,
-    updateEditionPlayer
+    updateEditionPlayer,
+    updateImgNumberEditionPlayer
 }
