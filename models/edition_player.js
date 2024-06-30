@@ -16,6 +16,14 @@ const EditionPlayerSchema = Schema({
         ref:'NationalTeam',
         required: true
     },
+    number: {
+        type: Number,
+        required: false
+    },
+    image: {
+        type: String,
+        required: false
+    },
 });
 
 EditionPlayerSchema.method('toJSON', function() {

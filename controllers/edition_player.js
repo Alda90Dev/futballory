@@ -33,7 +33,23 @@ const getEditionPlayers = async(req, res) => {
     });
 }
 
+const updateEditionPlayer = async(req, res = response) => {
+    const { _id, number, image } = req.body;
+    
+    const player = await EditionPlayer.find({ _id: _id });
+    player.number = number;
+    player.image = image;
+
+    await player.save();
+
+    res.json({
+        success: true,
+        player
+    });
+}
+
 module.exports = {
     createEditionPlayer,
-    getEditionPlayers
+    getEditionPlayers,
+    updateEditionPlayer
 }
