@@ -103,7 +103,7 @@ async function setGroupsJson(editions, allGroups) {
     var groups = [];
     editions.forEach(edition => {
 
-        const editionIds = allGroups.filter(group => group.edition_id.equals(edition._id)).map((group) => group.group_id);
+        const editionIds = allGroups.filter(group => group.edition_id.equals(edition._id)).map((group) => group.group_id).sort();
         const groupIds = [... new Set(editionIds)];
         var groupTeams = [];
         groupIds.forEach(id => {
