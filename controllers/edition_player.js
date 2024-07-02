@@ -35,8 +35,8 @@ const getEditionPlayers = async(req, res) => {
 
 const updateEditionPlayer = async(req, res = response) => {
     const { _id, number, image } = req.body;
-    
-    const player = await EditionPlayer.find({ _id: _id });
+    console.log(_id);
+    const player = await EditionPlayer.findById({ _id: _id });
     player.number = number;
     player.image = image;
 
@@ -49,9 +49,9 @@ const updateEditionPlayer = async(req, res = response) => {
 }
 
 const updateImgNumberEditionPlayer = async(req, res = response) => {
-    const { team } = req.body;
+    const { team, edition_id } = req.body;
     
-    const players = await EditionPlayer.find({ edition_id: '66357a0bb4abf1bf05eb1e7d', team: team })
+    const players = await EditionPlayer.find({ edition_id: edition_id, team: team })
                                         .populate('player')
                                         .lean();
     players.forEach(player => {
@@ -65,7 +65,7 @@ const updateImgNumberEditionPlayer = async(req, res = response) => {
 }
 
 async function setImgNumber(player) {
-    const editPlayer = await EditionPlayer.find({ _id: player._id });
+    const editPlayer = await EditionPlayer.findById({ _id: player._id });
     editPlayer.number = player.player.number;
     editPlayer.image = player.player.image;
 

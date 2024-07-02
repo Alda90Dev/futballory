@@ -24,6 +24,7 @@ router.post('/update', [
 
 router.post('/update-data', [
     check('team', 'El id del equipo es obligatorio').not().isEmpty(),
+    check('edition_id', 'El id de la edicion es obligatorio').not().isEmpty(),
     validateFields
 ], validateJWT, updateImgNumberEditionPlayer);
 
