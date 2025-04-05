@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createEdition, updateEdition, updateImgThumb, updateImgPortrait, updateImgLandscape, getEditions } = require('../controllers/edition');
+const { createEdition, updateEdition, updateImgThumb, updateImgPortrait, updateImgLandscape, addNewHost, getEditions } = require('../controllers/edition');
 const { validateFields } = require('../middlewares/validate-fields');
 const { validateJWT } = require('../middlewares/validate-jwt');
 const router = Router();
@@ -12,7 +12,6 @@ router.post('/new', [
     check('from_date', 'La fecha de inauguracion es obligatoria').not().isEmpty(),
     check('to_date', 'La fecha de clausura es obligatoria').not().isEmpty(),
     check('status', 'EL status es obligatorio').not().isEmpty(),
-    check('host', 'EL host es obligatorio').not().isEmpty(),
     check('tournament_id', 'EL id del torneo es obligatorio').not().isEmpty(),
     validateFields
 ], validateJWT, createEdition);
@@ -25,7 +24,6 @@ router.post('/update', [
     check('from_date', 'La fecha de inauguracion es obligatoria').not().isEmpty(),
     check('to_date', 'La fecha de clausura es obligatoria').not().isEmpty(),
     check('status', 'EL status es obligatorio').not().isEmpty(),
-    check('host', 'EL host es obligatorio').not().isEmpty(),
     check('tournament_id', 'EL id del torneo es obligatorio').not().isEmpty(),
     validateFields
 ], validateJWT, updateEdition);
@@ -47,6 +45,12 @@ router.post('/img-landscape', [
     check('img_landscape', 'La imagen landscape es obligatoria').not().isEmpty(),
     validateFields
 ], validateJWT, updateImgLandscape);
+
+router.post('/hosts', [
+    check('_id', 'El id es obligatorio').not().isEmpty(),
+    check('hosts', 'Los hosts son obligatorios').not().isEmpty(),
+    validateFields
+], validateJWT, addNewHost);
 
 router.get('/:tournament_id', validateJWT, getEditions);
 

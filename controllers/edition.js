@@ -20,7 +20,7 @@ const createEdition = async (req, res = response) => {
 }
 
 const updateEdition = async(req, res = response) => {
-    const { _id, name, name_en, edition, from_date, to_date, status, host, tournament_id } = req.body;
+    const { _id, name, name_en, edition, from_date, to_date, status, tournament_id } = req.body;
 
     try {
         const updateEdition = await Edition.findById(_id);
@@ -30,7 +30,6 @@ const updateEdition = async(req, res = response) => {
         updateEdition.from_date = from_date;
         updateEdition.to_date = to_date;
         updateEdition.status = status;
-        updateEdition.host = host;
         updateEdition.tournament_id = tournament_id;
 
         await updateEdition.save();
@@ -114,9 +113,40 @@ const updateImgLandscape = async(req, res = response) => {
     } 
 }
 
+const addNewHost = async(req, res = response) => {
+    const { _id, hosts } = req.body;
+
+    try {
+        const edition = await Edition.findById(_id);
+        hosts.forEach(host => {
+            if (!edition.hosts.includes(host)) {
+                edition.hosts.push(host);
+            }
+        });
+
+        await edition.save();
+
+        res.json({
+            success: true,
+            edition
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Error de servidor'
+        });
+    } 
+}
+
 const getEditions = async(req, res) => {
     const tournament_id = req.params.tournament_id;
-    const editions = await Edition.find({ tournament_id: tournament_id }).lean();
+    const editions = await Edition
+                            .find({ tournament_id: tournament_id })
+                            .populate({
+                                path: 'hosts'
+                            })
+                            .lean();
 
     res.json({
         success: true,
@@ -130,5 +160,6 @@ module.exports = {
     updateImgThumb,
     updateImgPortrait,
     updateImgLandscape,
+    addNewHost,
     getEditions
 }

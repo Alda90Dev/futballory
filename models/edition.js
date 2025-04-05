@@ -45,11 +45,11 @@ const EditionSchema = Schema({
         enum: TournamentStatus,
         required: true
     },
-    host: {
+    hosts: [{
         type: Schema.Types.ObjectId,
-        ref:'NationalTeam',
-        required: true
-    },
+        ref: 'NationalTeam',
+        requeried: false
+    }],
     tournament_id: {
         type: Schema.Types.ObjectId,
         ref: 'Tournament',
