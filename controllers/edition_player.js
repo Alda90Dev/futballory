@@ -1,5 +1,6 @@
 const { response } = require('express');
 const EditionPlayer = require('../models/edition_player');
+const Player = require('../models/player');
 
 const createEditionPlayer = async (req, res = response) => {
     try {
@@ -48,7 +49,7 @@ const updateEditionPlayer = async(req, res = response) => {
     });
 }
 
-const updateImgNumberEditionPlayer = async(req, res = response) => {
+/*const updateImgNumberEditionPlayer = async(req, res = response) => {
     const { team, edition_id } = req.body;
     
     const players = await EditionPlayer.find({ edition_id: edition_id, team: team })
@@ -62,6 +63,32 @@ const updateImgNumberEditionPlayer = async(req, res = response) => {
         success: true,
         players
     });
+}*/
+
+const updateImgNumberEditionPlayer = async(req, res = response) => {
+    const { team, edition_id } = req.body;
+    
+    const players = await Player.find({ national_team_id: team }).lean();
+
+    players.forEach(player => {
+        setEditionPlayer(player, edition_id, team);
+    }, {});
+
+    res.json({
+        success: true,
+        players
+    });
+}
+
+async function setEditionPlayer(player, edition_id, team) {
+    const editionPlayer = new EditionPlayer();
+    editionPlayer.edition_id = edition_id;
+    editionPlayer.player = player._id;
+    editionPlayer.team = team;
+    editionPlayer.number = player.number;
+    editionPlayer.image = player.image
+
+    await editionPlayer.save();   
 }
 
 async function setImgNumber(player) {
