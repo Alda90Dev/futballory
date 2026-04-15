@@ -20,6 +20,9 @@ const TournamentScheme =  Schema({
     image2: {
         type: String
     },
+    all_editions: {
+        type: Boolean
+    },
     confederation_id: {
         type: Schema.Types.ObjectId,
         ref: 'Confederation',

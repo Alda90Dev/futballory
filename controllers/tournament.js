@@ -20,7 +20,7 @@ const createTournament = async (req, res = response) => {
 }
 
 const updateTournament = async(req, res = response) => {
-    const { _id, name, name_en, image, image2, confederation_id, tournament_status } = req.body;
+    const { _id, name, name_en, image, image2, all_editions, confederation_id, tournament_status } = req.body;
 
     try {
         const tournament = await Tournament.findById(_id);
@@ -28,6 +28,7 @@ const updateTournament = async(req, res = response) => {
         tournament.name_en = name_en;
         tournament.image = image;
         tournament.image2 = image2;
+        tournament.all_editions = all_editions;
         tournament.confederation_id = confederation_id;
         tournament.tournament_status = tournament_status;
 
