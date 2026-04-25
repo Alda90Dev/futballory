@@ -49,6 +49,20 @@ const updateEditionPlayer = async(req, res = response) => {
     });
 }
 
+const updateImageEditionPlayer = async(req, res = response) => {
+    const { _id, number, image } = req.body;
+    console.log(_id);
+    const player = await EditionPlayer.findById({ _id: _id });
+    player.image = image;
+
+    await player.save();
+
+    res.json({
+        success: true,
+        player
+    });
+}
+
 /*const updateImgNumberEditionPlayer = async(req, res = response) => {
     const { team, edition_id } = req.body;
     
@@ -103,5 +117,6 @@ module.exports = {
     createEditionPlayer,
     getEditionPlayers,
     updateEditionPlayer,
-    updateImgNumberEditionPlayer
+    updateImgNumberEditionPlayer,
+    updateImageEditionPlayer
 }
