@@ -38,6 +38,8 @@ router.post('/update', [
     validateFields
 ], validateJWT, updateMatch);
 
+router.get('/unique/:id', validateJWT, getMatchById);
+
 router.get('/dates', validateJWT, getDates);
 
 router.get('/dates/:edition_id', validateJWT, getDatesByEdition);
@@ -45,8 +47,6 @@ router.get('/dates/:edition_id', validateJWT, getDatesByEdition);
 router.get('/:date/:edition_id', validateJWT, getMatchesByEdition);
 
 router.get('/:date/', validateJWT, getMatches);
-
-router.get('/unique/:id', validateJWT, getMatchById);
 
 router.post('/update-edition', [
     check('edition_id', 'La edicion es obligatoria').not().isEmpty(),
