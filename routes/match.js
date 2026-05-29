@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createMatch, updateMatch, getMatches, getDates, getDatesByEdition, getMatchesByEdition, updateEdition } = require('../controllers/match');
+const { createMatch, updateMatch, getMatches, getDates, getDatesByEdition, getMatchesByEdition, updateEdition, getMatchById } = require('../controllers/match');
 const { validateFields } = require('../middlewares/validate-fields');
 const { validateJWT } = require('../middlewares/validate-jwt');
 const router = Router();
@@ -45,6 +45,8 @@ router.get('/dates/:edition_id', validateJWT, getDatesByEdition);
 router.get('/:date/:edition_id', validateJWT, getMatchesByEdition);
 
 router.get('/:date/', validateJWT, getMatches);
+
+router.get('/unique/:id', validateJWT, getMatchById);
 
 router.post('/update-edition', [
     check('edition_id', 'La edicion es obligatoria').not().isEmpty(),
