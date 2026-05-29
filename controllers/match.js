@@ -60,7 +60,7 @@ const updateMatch = async (req, res = response) => {
 const getMatchById = async (req, res) => {
     const id = req.params.id;
     try {
-        const match = await Match.find({ _id: id }).lean();
+        const match = await Match.findOne({ _id: id }).lean();
 
         res.json({
             success: true,
