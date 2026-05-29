@@ -57,6 +57,23 @@ const updateMatch = async (req, res = response) => {
     }
 }
 
+const getMatchById = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const match = await Match.find({ _id: id }).lean();
+
+        res.json({
+            success: true,
+            match
+        });
+    } catch(error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error de servidor'
+        });
+    }
+}
+
 const getMatchesByEdition = async (req, res) => {
     const date = new Date(req.params.date);
     const edition_id = req.params.edition_id;
@@ -186,6 +203,7 @@ const updateEdition = async(req, res) => {
 module.exports = {
     createMatch,
     updateMatch,
+    getMatchById,
     getMatches,
     getDates,
     updateEdition,
