@@ -60,7 +60,7 @@ const updateMatch = async (req, res = response) => {
 const getMatchById = async (req, res) => {
     const id = req.params.id;
     try {
-        const match = await Match.findOne({ _id: id }).lean();
+        const match = await Match.findOne({ _id: id }).lean().populate('local_team').populate('guest_team').populate('stadium');
 
         res.json({
             success: true,
