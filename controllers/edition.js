@@ -142,7 +142,8 @@ const addNewHost = async(req, res = response) => {
 const getEditions = async(req, res) => {
     const tournament_id = req.params.tournament_id;
     const editions = await Edition
-                            .find({ tournament_id: tournament_id, status: 'ACTIVE' })
+                            .find({ tournament_id: tournament_id, 
+                                    $or: [ { status: 'ACTIVE'}, { status: 'FINISHED' }] })
                             .populate({
                                 path: 'hosts'
                             })
