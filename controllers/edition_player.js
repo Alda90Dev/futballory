@@ -37,15 +37,15 @@ const getEditionPlayers = async(req, res) => {
 const updateEditionPlayer = async(req, res = response) => {
     const { _id, number, player } = req.body;
     console.log(_id);
-    const player = await EditionPlayer.findById({ _id: _id });
-    player.player = player
-    player.number = number;
+    const editionPlayer = await EditionPlayer.findById({ _id: _id });
+    editionPlayer.player = player
+    editionPlayer.number = number;
 
-    await player.save();
+    await editionPlayer.save();
 
     res.json({
         success: true,
-        player
+        editionPlayer
     });
 }
 
