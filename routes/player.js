@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createPlayer, updatePlayer, updateImage, getPlayers, updateStatus } = require('../controllers/player');
+const { createPlayer, updatePlayer, updateImage, getPlayers, getDTs, updateStatus } = require('../controllers/player');
 const { validateFields } = require('../middlewares/validate-fields');
 const { validateJWT } = require('../middlewares/validate-jwt');
 const router = Router();
@@ -48,6 +48,7 @@ router.post('/image', [
     validateFields
 ], validateJWT, updateImage);
 
+router.get('/dts', validateJWT, getDTs);
 router.get('/:national_team_id', validateJWT, getPlayers);
 
 router.post('/update-status', [

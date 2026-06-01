@@ -87,6 +87,16 @@ const getPlayers = async (req, res) => {
     });
 }
 
+const getDTs = async (req, res) => {
+
+    const dts = await Player.find({ player_type: 'COACH' }).lean();
+
+    res.json({
+        success: true,
+        dts
+    });
+}
+
 const updateStatus = async(req, res) => {
     await Player.updateMany({ 'player_status': 'ACTIVE' });
 
@@ -101,5 +111,6 @@ module.exports = {
     updatePlayer,
     updateImage,
     getPlayers,
+    getDTs,
     updateStatus
 }

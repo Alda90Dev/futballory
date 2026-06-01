@@ -2,6 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const Stage = [
     'GROUPS',
+    'ROUND OF 32',
     'ROUND OF 16',
     'QUARTER FINALS',
     'SEMIFINAL',

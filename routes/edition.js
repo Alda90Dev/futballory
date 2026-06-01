@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createEdition, updateEdition, updateImgThumb, updateImgPortrait, updateImgLandscape, addNewHost, getEditions } = require('../controllers/edition');
+const { createEdition, updateEdition, updateImgThumb, updateImgPortrait, updateImgLandscape, addNewHost, getEditions, getAllEditions } = require('../controllers/edition');
 const { validateFields } = require('../middlewares/validate-fields');
 const { validateJWT } = require('../middlewares/validate-jwt');
 const router = Router();
@@ -52,6 +52,7 @@ router.post('/hosts', [
     validateFields
 ], validateJWT, addNewHost);
 
+router.get('/all/:tournament_id', validateJWT, getAllEditions);
 router.get('/:tournament_id', validateJWT, getEditions);
 
 module.exports = router;

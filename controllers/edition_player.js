@@ -35,11 +35,11 @@ const getEditionPlayers = async(req, res) => {
 }
 
 const updateEditionPlayer = async(req, res = response) => {
-    const { _id, number, image } = req.body;
+    const { _id, number, player } = req.body;
     console.log(_id);
     const player = await EditionPlayer.findById({ _id: _id });
+    player.player = player
     player.number = number;
-    player.image = image;
 
     await player.save();
 

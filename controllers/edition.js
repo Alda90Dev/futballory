@@ -142,11 +142,26 @@ const addNewHost = async(req, res = response) => {
 const getEditions = async(req, res) => {
     const tournament_id = req.params.tournament_id;
     const editions = await Edition
+                            .find({ tournament_id: tournament_id, status: 'ACTIVE' })
+                            .populate({
+                                path: 'hosts'
+                            })
+                            .lean().sort({ edition: 'desc'});
+
+    res.json({
+        success: true,
+        editions
+    });
+}
+
+const getAllEditions = async(req, res) => {
+    const tournament_id = req.params.tournament_id;
+    const editions = await Edition
                             .find({ tournament_id: tournament_id })
                             .populate({
                                 path: 'hosts'
                             })
-                            .lean();
+                            .lean().sort({ edition: 'desc'});
 
     res.json({
         success: true,
@@ -161,5 +176,6 @@ module.exports = {
     updateImgPortrait,
     updateImgLandscape,
     addNewHost,
-    getEditions
+    getEditions,
+    getAllEditions
 }
