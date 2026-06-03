@@ -18,7 +18,6 @@ router.get('/:edition_id/:team', validateJWT, getEditionPlayers);
 router.post('/update', [
     check('_id', 'El id es obligatorio').not().isEmpty(),
     check('number', 'El número es obligatorio').not().isEmpty(),
-    check('image', 'La imagen es obligatoria').not().isEmpty(),
     validateFields
 ], validateJWT, updateEditionPlayer);
 
